@@ -32,6 +32,7 @@ const tasks = [
 ];
 
 (function (arrOfTasks) {
+  
   // transformation [] => {}
   const objOfTasks = arrOfTasks.reduce((acc, task) => {
     acc[task._id] = task
@@ -46,6 +47,7 @@ const tasks = [
 
   // events
   form.addEventListener('submit', onFormSubmitHendler)
+  ul.addEventListener('click', onDeleteHendler)
 
   // submit form && add new list item to the DOM
   function onFormSubmitHendler(e) {
@@ -58,6 +60,23 @@ const tasks = [
     const li = listItemTemplate(task)
     ul.insertAdjacentElement('afterbegin', li)
     form.reset()
+  }
+
+  // delete list item from DOM
+  function onDeleteHendler(e) {
+    e.preventDefault()
+    const current = e.target
+    if (current.tagName !== 'BUTTON') return
+    const parent = current.closest('[data-task-id]')
+    const id = parent.dataset.taskId
+    if (deleteTask(id)) parent.remove();
+  }
+
+  // delete task
+  function deleteTask(id) {
+    const { title } = objOfTasks[id];
+    const isDelete = confirm(`Delete task: ${title}`) && delete objOfTasks[id]
+    return isDelete
   }
 
   // create new task
@@ -96,6 +115,7 @@ const tasks = [
       'flex-wrap',
       'mt-2'
     )
+    li.setAttribute('data-task-id', _id)
 
     const span = document.createElement('span')
     span.textContent = title
