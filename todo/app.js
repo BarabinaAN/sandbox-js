@@ -40,6 +40,37 @@ const tasks = [
 
   // get DOM elements
   const ul = document.querySelector('.list-group')
+  const form = document.forms['addTask']
+  const inputTitle = form.elements['title']
+  const inputBody = form.elements['body']
+
+  // events
+  form.addEventListener('submit', onFormSubmitHendler)
+
+  // submit form && add new list item to the DOM
+  function onFormSubmitHendler(e) {
+    e.preventDefault()
+    const titleVal = inputTitle.value
+    const bodyVal = inputBody.value
+    if (!titleVal || !bodyVal) alert('Заполните поля')
+
+    const task = createNewTask(titleVal, bodyVal)
+    const li = listItemTemplate(task)
+    ul.insertAdjacentElement('afterbegin', li)
+    form.reset()
+  }
+
+  // create new task
+  function createNewTask(title, body) {
+    const newTask = {
+      _id: `task-${Math.random()}`,
+      completed: false,
+      title,
+      body,
+    }
+    objOfTasks[newTask._id] = newTask
+    return { ...newTask }
+  }
 
   // render list of tasks
   function renderAllTasks(list) {
@@ -54,7 +85,7 @@ const tasks = [
     ul.appendChild(fragment)
   }
   renderAllTasks(objOfTasks)
-  
+
   // create task DOM element
   function listItemTemplate({ _id, title, body } = {}) {
     const li = document.createElement('li')
