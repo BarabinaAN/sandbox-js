@@ -99,8 +99,8 @@ const tasks = [
       '--input-focus-box-shadow': '0 0 0 0.2rem rgba(141, 143, 146, 0.25)',
     },
   };
-  let currentTheme = 'default'
-
+  let currentTheme = localStorage.getItem('theme') || 'default'
+  
   // transformation [] => {}
   const objOfTasks = arrOfTasks.reduce((acc, task) => {
     acc[task._id] = task
@@ -119,6 +119,9 @@ const tasks = [
   ul.addEventListener('click', onDeleteHendler)
   themeSelect.addEventListener('change', onThemeSelect)
 
+  // set theme at update browser
+  setTheme(currentTheme)
+
   // select theme
   function onThemeSelect(e) {
     const selectVal = themeSelect.value
@@ -129,6 +132,7 @@ const tasks = [
     }
     setTheme(selectVal)
     currentTheme = selectVal
+    localStorage.setItem('theme', currentTheme)
   }
 
   // set current theme
