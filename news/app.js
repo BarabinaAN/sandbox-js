@@ -80,7 +80,7 @@ const form = document.forms['newsControls']
 const select = form.elements['country']
 const search = form.elements['search']
 
-//  init selects
+// events
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
   loadNews();
@@ -93,6 +93,7 @@ form.addEventListener('submit', (e) => {
 
 // load all news
 function loadNews() {
+  showLoader();
   const country = select.value
   const text = search.value
 
@@ -103,7 +104,32 @@ function loadNews() {
   }
 }
 
+// show loader DOM item
+function showLoader() {
+  document.body.insertAdjacentHTML('afterbegin', `  
+    <div class="progress">
+      <div class="indeterminate"></div>
+    </div>
+  `)
+}
+
+// remove loader DOM item
+function removeLoader() {
+  const loader = document.querySelector('.progress')
+  if(loader) loader.remove()
+}
+
+// show message DOM item
+function showMessage(msg, type = 'success') {
+  M.toast({
+    html: msg,
+    classes: type
+  })
+}
+
+// get response at service
 function getResponse(err, res) {
+  removeLoader()
   if (err) {
     showMessage(err, 'error-msg')
     return
@@ -115,13 +141,6 @@ function getResponse(err, res) {
   }
 
   renderNews(res.articles)
-}
-
-function showMessage(msg, type = 'success') {
-  M.toast({
-    html: msg,
-    classes: type
-  })
 }
 
 // render all news
@@ -140,8 +159,8 @@ function renderNews(news) {
   container.insertAdjacentHTML('afterbegin', fragment)
 }
 
-// clear news list
 
+// clear news list
 function clearNews(container) {
   let child = container.lastElementChild
   while(child) {
