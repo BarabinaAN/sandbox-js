@@ -60,9 +60,9 @@ const service = (function () {
   const apiKey = '8f13bbc9f4cb4be882690b31743b35ed'
   const apiUrl = 'http://news-api-v2.herokuapp.com'
   return {
-    topheadlines(country = 'ua', cb) {
+    topheadlines(country = 'ru', category='general', cb ) {
       http.get(
-        `${apiUrl}/top-headlines?country=${country}&apiKey=${apiKey}`,
+        `${apiUrl}/top-headlines?country=${country}&category=${category}&apiKey=${apiKey}`,
         cb
       )
     },
@@ -77,7 +77,8 @@ const service = (function () {
 
 // DOM
 const form = document.forms['newsControls']
-const select = form.elements['country']
+const selectCountry = form.elements['country']
+const selectCategory = form.elements['category']
 const search = form.elements['search']
 
 // events
@@ -94,11 +95,12 @@ form.addEventListener('submit', (e) => {
 // load all news
 function loadNews() {
   showLoader();
-  const country = select.value
+  const country = selectCountry.value
+  const category = selectCategory.value
   const text = search.value
 
   if (!text) {
-    service.topheadlines(country, getResponse)
+    service.topheadlines(country, category, getResponse)
   } else {
     service.everising(text, getResponse)
   }
