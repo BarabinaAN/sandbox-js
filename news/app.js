@@ -76,6 +76,7 @@ const service = (function () {
 })()
 
 // DOM
+const container = document.querySelector('.news-container .row')
 const form = document.forms['newsControls']
 const selectCountry = form.elements['country']
 const selectCategory = form.elements['category']
@@ -98,6 +99,7 @@ function loadNews() {
   const country = selectCountry.value
   const category = selectCategory.value
   const text = search.value
+  
 
   if (!text) {
     service.topheadlines(country, category, getResponse)
@@ -138,7 +140,8 @@ function getResponse(err, res) {
   }
 
   if (!res.articles.length) {
-    console.log('ничего не найдено');
+    showMessage('Извините, ничего не найдено')
+    clearNews()
     return
   }
 
@@ -147,9 +150,8 @@ function getResponse(err, res) {
 
 // render all news
 function renderNews(news) {
-  const container = document.querySelector('.news-container .row')
   if(container.children.length) {
-    clearNews(container)
+    clearNews()
   }
   let fragment = ''
 
@@ -163,7 +165,7 @@ function renderNews(news) {
 
 
 // clear news list
-function clearNews(container) {
+function clearNews() {
   let child = container.lastElementChild
   while(child) {
     container.removeChild(child)
@@ -173,11 +175,12 @@ function clearNews(container) {
 
 // html template item news
 function newsItemTemplate({ urlToImage, title, url, description }) {
+  const defaultUrl = './image.svg'
   return `
     <div class="col s12">
       <div class="card">
         <div class="card-image">
-          <img src="${urlToImage}" />
+          <img src="${urlToImage || defaultUrl}" />
           <span class="card-title">${title || ''}</span>
         </div>
         <div class="card-content">
@@ -190,5 +193,3 @@ function newsItemTemplate({ urlToImage, title, url, description }) {
     </div>
   `
 }
-
-
