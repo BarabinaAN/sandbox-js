@@ -75,34 +75,82 @@ const service = (function () {
   }
 })()
 
+// DOM
+const form = document.forms['newsControls']
+const select = form.elements['country']
+const search = form.elements['search']
+
 //  init selects
 document.addEventListener('DOMContentLoaded', function () {
   M.AutoInit();
   loadNews();
 });
 
-// load
+form.addEventListener('submit', (e) => {
+  e.preventDefault()
+  loadNews()
+})
+
+// load all news
 function loadNews() {
-  service.topheadlines('ua', getResponse)
+  const country = select.value
+  const text = search.value
+
+  if (!text) {
+    service.topheadlines(country, getResponse)
+  } else {
+    service.everising(text, getResponse)
+  }
 }
 
 function getResponse(err, res) {
+  if (err) {
+    showMessage(err, 'error-msg')
+    return
+  }
+
+  if (!res.articles.length) {
+    console.log('ничего не найдено');
+    return
+  }
+
   renderNews(res.articles)
 }
 
-//
+function showMessage(msg, type = 'success') {
+  M.toast({
+    html: msg,
+    classes: type
+  })
+}
+
+// render all news
 function renderNews(news) {
   const container = document.querySelector('.news-container .row')
+  if(container.children.length) {
+    clearNews(container)
+  }
   let fragment = ''
 
   news.forEach(item => {
     const newsItem = newsItemTemplate(item)
     fragment += newsItem
   })
-  
+
   container.insertAdjacentHTML('afterbegin', fragment)
 }
 
+// clear news list
+
+function clearNews(container) {
+  let child = container.lastElementChild
+  while(child) {
+    container.removeChild(child)
+    child = container.lastElementChild
+  }
+}
+
+// html template item news
 function newsItemTemplate({ urlToImage, title, url, description }) {
   return `
     <div class="col s12">
