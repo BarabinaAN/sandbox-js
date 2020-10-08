@@ -47,3 +47,17 @@ function getUser3(id) {
 getUser3('userId=10')
    .then(user => console.log(user))
    .catch(err => console.log(err))
+
+   
+// 4  priority!!!
+async function getUser4(id) {
+      // at error (incorrect 'id' value) - output text message on console
+      const [type, num] = id.split('=')
+      const response = await fetch(`${_url}/${num}`)
+                                 .then(res => res.json())
+      return response
+}
+
+getUser4('userId=8')
+   .then(user => console.log(user))
+   .catch(err => console.log(err))
