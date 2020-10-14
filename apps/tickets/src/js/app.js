@@ -1,4 +1,8 @@
-import api from './service/api-ticket'
+import locations from './store/locations'
 
-api.countries().then(res => console.log(res))
-api.cities().then(res => console.log(res))
+locations.init().then(res => {
+   console.log(res)
+   console.log(locations)
+   const citiesPE = locations.getCitiesByCode('PE')
+   console.log(citiesPE);
+})
