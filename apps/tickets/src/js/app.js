@@ -1,3 +1,6 @@
+import '../css/style.css'
+import './plugins/materialize'
+
 import locations from './store/locations'
 
 locations.init().then(res => {
