@@ -19,8 +19,12 @@ class Locations {
       this.cities = this.convertCities(cities);
       this.shortCitiesList = this.createShortCitiesList(this.cities);
 
-      console.log(response);
       return response
+   }
+
+   getCityCodeByKey(key) {
+      console.log(key);
+      return this.cities[key].code;
    }
 
    convertCountries(countries) {
@@ -51,9 +55,9 @@ class Locations {
       return this.countries[code].name
    }
 
-   getCitiesByCode(code) {
-      return this.cities.filter(city => city.country_code === code)
-   }
+   // getCitiesByCode(code) {
+   //    return this.cities.filter(city => city.country_code === code)
+   // }
 }
 
 const locations = new Locations(api)
