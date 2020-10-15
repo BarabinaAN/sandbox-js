@@ -3,6 +3,7 @@ import './plugins/materialize'
 
 import locations from './store/locations'
 import formUI from './views/form'
+import currencyUI from './views/currency'
 
 document.addEventListener('DOMContentLoaded', () => {
    initApp();
@@ -25,12 +26,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const destination = locations.getCityCodeByKey(formUI.destinationValue)
       const depart_date = formUI.departValue
       const return_date = formUI.returnValue
+      const currency = currencyUI.currencyValue
 
       await locations.fetchTickets({
          origin,
          destination,
          depart_date,
-         return_date
+         return_date,
+         currency,
       })
    }
 })
