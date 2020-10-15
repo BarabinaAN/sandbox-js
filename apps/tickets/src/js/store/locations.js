@@ -55,9 +55,10 @@ class Locations {
       return this.countries[code].name
    }
 
-   // getCitiesByCode(code) {
-   //    return this.cities.filter(city => city.country_code === code)
-   // }
+   async fetchTickets(params) {
+      const response = await this.api.prices(params)
+      console.log(response);
+   }
 }
 
 const locations = new Locations(api)
