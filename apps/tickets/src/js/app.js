@@ -26,6 +26,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const depart_date = formUI.departValue
       const return_date = formUI.returnValue
 
-      console.log(origin, destination, depart_date, return_date);
+      await locations.fetchTickets({
+         origin,
+         destination,
+         depart_date,
+         return_date
+      })
    }
 })
