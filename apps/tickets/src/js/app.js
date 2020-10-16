@@ -6,8 +6,8 @@ import formUI from './views/form'
 import currencyUI from './views/currency'
 
 document.addEventListener('DOMContentLoaded', () => {
-   initApp();
    const form = formUI.form
+   initApp();
 
    // events
    form.addEventListener('submit', e => {
