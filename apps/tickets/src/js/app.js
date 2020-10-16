@@ -4,6 +4,7 @@ import './plugins/materialize'
 import locations from './store/locations'
 import formUI from './views/form'
 import currencyUI from './views/currency'
+import ticketsUI from './views/tickets'
 
 document.addEventListener('DOMContentLoaded', () => {
    const form = formUI.form
@@ -35,5 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
          return_date,
          currency,
       })
+      
+      ticketsUI.renderTickets(locations.lastSearch)
    }
 })
