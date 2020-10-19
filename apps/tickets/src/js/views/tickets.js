@@ -42,6 +42,7 @@ class TicketsUI {
 
    static ticketTemplate(ticket, symbol) {
       const {
+         ticket_id,
          airline_logo, 
          airline_name, 
          origin_name, 
@@ -76,7 +77,10 @@ class TicketsUI {
                <span class="ticket-transfers">Пересадок: ${transfers}</span>
                <span class="ticket-flight-number">Номер рейса: ${flight_number}</span>
             </div>
-            <a class="waves-effect waves-light btn-small green darken-1 add-favorite ml-auto">Add to favorites</a>
+            <a 
+               class="waves-effect waves-light btn-small green darken-1 add-favorite ml-auto"
+               data-ticket-id=${ticket_id}
+            >Add to favorites</a>
          </div>
       </div>
    </div>`

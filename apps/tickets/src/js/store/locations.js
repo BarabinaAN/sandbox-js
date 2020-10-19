@@ -84,20 +84,21 @@ class Locations {
       }, {})
    }
 
-   // getCountryNameByCode(code) {
-   //    return this.countries[code].name
-   // }
-
+   createTicketID(ticket) {
+      const id = `${ticket.airline}${ticket.origin}${ticket.expires_at}`
+      return id
+   }
+   
    async fetchTickets(params) {
       const response = await this.api.prices(params)
       this.lastSearch = this.convertTickets(response.data);
-      console.log(this.lastSearch);
    }
 
    convertTickets(tickets) {
       return Object.values(tickets).map(ticket => {
          return {
             ...ticket,
+            ticket_id: this.createTicketID(ticket),
             origin_name: this.getCityNameByCode(ticket.origin),
             destination_name: this.getCityNameByCode(ticket.destination),
             airline_logo: this.getAirlineLogoByCode(ticket.airline),
