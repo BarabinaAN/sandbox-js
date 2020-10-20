@@ -4,6 +4,7 @@ import '../css/style.css';
 import ui from './config/ui'
 import { validate } from './helpers/validate'
 import { showInputError, removeInputError } from './views/form'
+import { login } from './services/login'
 
 const { form, inputEmail, inputPassword } = ui
 const fields = [inputEmail, inputPassword]
@@ -17,7 +18,7 @@ form.addEventListener('submit', (e) => {
 fields.forEach(field => field.addEventListener('focus', () => removeInputError(field)))
 
 // hendlers
-function onSubmit() {
+async function onSubmit() {
    const isValidForm = fields.every(field => {
       const isValid = validate(field)
       if(!isValid) {
@@ -25,5 +26,13 @@ function onSubmit() {
       }
       return isValid 
    })
-   console.log(isValidForm);
+   
+   if(!isValidForm) return
+
+   try {
+      await login(inputEmail.value, inputPassword.value) 
+      form.reset()
+   } catch (error) {
+      
+   }
 }
