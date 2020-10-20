@@ -4,6 +4,7 @@ import '../css/style.css';
 import ui from './config/ui'
 import { validate } from './helpers/validate'
 import { showInputError, removeInputError } from './views/form'
+import { notify, closeNotify } from './views/natifications'
 import { login } from './services/login'
 
 const { form, inputEmail, inputPassword } = ui
@@ -32,7 +33,8 @@ async function onSubmit() {
    try {
       await login(inputEmail.value, inputPassword.value) 
       form.reset()
+      notify({ msg: 'Login success', className: 'alert-success' });
    } catch (error) {
-      
+      notify({ mas: 'Login faild', className: 'alert-danger' });
    }
 }
