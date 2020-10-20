@@ -14,7 +14,7 @@ class Favorites {
       localStorage.setItem('favorites', JSON.stringify(this.obj))
    }
 
-   getFavorites() {
+   getFavorites() {понятно
       return this.list = Object.values(JSON.parse(localStorage.getItem('favorites')))
    }
 }
